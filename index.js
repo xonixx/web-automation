@@ -17,7 +17,15 @@ async function getYoutubeLinksOnPage(url) {
     aa.map((a) => a.getAttribute("href"))
   );
 
-  console.info(hrefs.map(extractYoutubeId));
+  const youtubeIds = hrefs.map(extractYoutubeId);
+
+  // console.info(youtubeIds);
+
+  const youtubeIdsFirst50 = youtubeIds.slice(0, 50);
+
+  console.info(
+    "https://www.youtube.com/watch_videos?video_ids=" + youtubeIdsFirst50.join(",")
+  );
 
   await browser.close();
 }
