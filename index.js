@@ -26,6 +26,8 @@ async function getYoutubeLinksOnPage(url) {
     j,
     chunkSize = 50;
 
+  const resYtPlaylists = [];
+
   for (i = 0, j = youtubeIds.length; i < j; i += chunkSize) {
     const chunk = youtubeIds.slice(i, i + chunkSize);
     const tmpPlaylistUrl =
@@ -35,7 +37,15 @@ async function getYoutubeLinksOnPage(url) {
 
     await page.goto(tmpPlaylistUrl);
 
-    console.info(chunk.length + " : " + page.url());
+    const shortYoutubePlaylistUrl = page.url();
+    resYtPlaylists.push([chunk.length, shortYoutubePlaylistUrl]);
+
+    console.info(chunk.length + " : " + shortYoutubePlaylistUrl);
+  }
+
+  console.info("As YT Music:");
+  for (const [chunkLen, shortYoutubePlaylistUrl] of resYtPlaylists) {
+    console.info(chunkLen + " : " + shortYoutubePlaylistUrl.replace("www.", "music."));
   }
 
   await browser.close();
