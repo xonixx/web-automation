@@ -20,12 +20,23 @@ async function getYoutubeLinksOnPage(url) {
   const youtubeIds = hrefs.map(extractYoutubeId);
 
   // console.info(youtubeIds);
+  console.info("Total: " + youtubeIds.length);
 
-  const youtubeIdsFirst50 = youtubeIds.slice(0, 50);
+  let i,
+    j,
+    chunkSize = 50;
 
-  console.info(
-    "https://www.youtube.com/watch_videos?video_ids=" + youtubeIdsFirst50.join(",")
-  );
+  for (i = 0, j = youtubeIds.length; i < j; i += chunkSize) {
+    const chunk = youtubeIds.slice(i, i + chunkSize);
+    const tmpPlaylistUrl =
+      "https://www.youtube.com/watch_videos?video_ids=" + chunk.join(",");
+
+    // console.info(tmpPlaylistUrl);
+
+    await page.goto(tmpPlaylistUrl);
+
+    console.info(chunk.length + " : " + page.url());
+  }
 
   await browser.close();
 }
