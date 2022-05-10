@@ -17,7 +17,7 @@ async function getYoutubeLinksOnPage(url) {
     aa.map((a) => a.getAttribute("href"))
   );
 
-  const youtubeIds = hrefs.map(extractYoutubeId);
+  const youtubeIds = hrefs.map(extractYoutubeId).filter(value => value);
 
   // console.info(youtubeIds);
   console.info("Total: " + youtubeIds.length);
@@ -62,5 +62,6 @@ function extractYoutubeId(url) {
   if (i2 > 0) {
     return url.substr(i2 + youtube.length, 11);
   }
-  throw "Unable to extract yt ID";
+  // throw "Unable to extract yt ID";
+  return null;
 }
